@@ -5,14 +5,14 @@ import { useTheme } from "./Hooks/UseTheme";
 import Homepage from "./Components/Homepage";
 
 function App() {
-  const handleTheme = useTheme();
+  const { theme, handleTheme } = useTheme();
 
   return (
     <BrowserRouter>
       <header className="flex justify-between">
         <Link to="/">Where in the world?</Link>
         <button onClick={() => handleTheme(localStorage.theme)}>
-          Change theme
+          {theme === "dark" ? "Dark mode" : "Light Mode"}
         </button>
       </header>
       <Routes>

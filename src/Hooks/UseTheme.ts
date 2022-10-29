@@ -2,8 +2,13 @@ import { useEffect, useState } from "react";
 
 type Theme = "dark" | "light";
 
-export const useTheme = () => {
-  const [theme, setTheme] = useState<Theme>();
+type returnTheme = {
+  theme: Theme;
+  handleTheme: (_x: Theme) => void;
+};
+
+export const useTheme = (): returnTheme => {
+  const [theme, setTheme] = useState<Theme>(localStorage.theme);
 
   function handleTheme(actualTheme: Theme) {
     if (actualTheme === "dark") changeTheme("light");
@@ -29,5 +34,5 @@ export const useTheme = () => {
     }
   }, [theme]);
 
-  return handleTheme;
+  return { theme, handleTheme };
 };
