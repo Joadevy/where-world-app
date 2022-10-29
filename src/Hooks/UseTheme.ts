@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 
 type Theme = "dark" | "light";
 
-type returnTheme = {
+type ReturnTheme = {
   theme: Theme;
   handleTheme: (_x: Theme) => void;
 };
 
-export const useTheme = (): returnTheme => {
+export const useTheme = (): ReturnTheme => {
   const [theme, setTheme] = useState<Theme>(localStorage.theme);
 
   function handleTheme(actualTheme: Theme) {
