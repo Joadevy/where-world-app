@@ -41,7 +41,7 @@ export const useCountries = (): ReturnCountries => {
   };
 
   function handleData(data: Array<any>) {
-    const dataCountries = data.reduce<Country[]>((dataCountries, item) => {
+    const dataCountries: Country[] = data.map((item) => {
       const country: Country = {} as Country;
 
       country.name = item.name.common;
@@ -52,17 +52,19 @@ export const useCountries = (): ReturnCountries => {
       country.subRegion = item.subregion;
       if (item.capital) country.capital = [...item.capital];
 
-      // domain: item.tld[0],
-      // if (item.currencies) {
-      // country.currencies = [...item.currencies];
-      // }
+      if (item.tld) country.domain = item.tld[0];
+      if (item.currencies)
+        country.currencies = Object.values<Record<string, string>>(
+          item.currencies
+        ).map((currency) => {
+          return currency.name;
+        });
+
       if (item.languages)
         country.languages = [...Object.values<string>(item.languages)];
 
-      dataCountries.push(country);
-
-      return dataCountries;
-    }, []);
+      return country;
+    });
 
     setCountries(dataCountries);
     setStatus(true);
