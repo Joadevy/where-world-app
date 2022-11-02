@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { useTheme } from "./Hooks/UseTheme";
-import Homepage from "./Components/Homepage";
+import Country from "./pages/Country";
+import Homepage from "./pages/Homepage";
 
 function App() {
   const { theme, handleTheme } = useTheme();
@@ -19,7 +20,7 @@ function App() {
       </header>
       <Routes>
         <Route element={<Homepage />} path="/" />
-        {/* <Route element={<Details />} path="/details/:id" /> */}
+        <Route element={<Country />} path="/country/:id" />
       </Routes>
     </BrowserRouter>
   );
