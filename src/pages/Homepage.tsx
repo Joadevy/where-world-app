@@ -51,8 +51,8 @@ const Homepage: FC<props> = ({ data }) => {
       </div>
 
       <ListingsGrid>
-        {countries.map((country) => (
-          <Country key={country.domain} country={country} />
+        {countries.map((country, index) => (
+          <Country key={index} country={country} />
         ))}
       </ListingsGrid>
     </div>

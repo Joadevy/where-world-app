@@ -1,23 +1,16 @@
 import { type FC } from "react";
-import { useParams } from "react-router-dom";
 
-import { useCountries } from "../Hooks/UseCountries";
+import { Country } from "../Hooks/UseCountries";
 
-const Details: FC = () => {
-  const id = useParams().id;
+type props = {
+  country: Country;
+  countries: Country[];
+};
 
-  // It shouldn't use the same hook as the Homepage, because the data will change according the id.
-  const { status, countries: country } = useCountries(
-    `https://restcountries.com/v3.1/name/${id}`
-  );
-
-  //   status == true ? console.log(country) : ""; //   function
-  if (!status) return <div>Loading...</div>;
-  console.log(country);
-
+const Details: FC<props> = ({ country, countries }) => {
   return (
     <div>
-      <h2>Country: {country[0].name}</h2>
+      <h2>Country: {country.name}</h2>
     </div>
   );
 };
