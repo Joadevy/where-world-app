@@ -1,25 +1,60 @@
-import type { FC } from "react";
+import { FC, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Country } from "../Components/Country";
+import { ListingsGrid } from "../Components/ListingsGrid";
+import { type Country as country } from "../Hooks/UseCountries";
 
-import { useCountries } from "../Hooks/UseCountries";
+type props = {
+  data: country[];
+};
 
-const Homepage: FC = () => {
-  // Fetch the info here :)
-  const { status, countries } = useCountries("./data.json");
-  // const { status, countries } = useCountries(
-  //   "https://restcountries.com/v3.1/all"
-  // );
+type Continent = "Africa" | "America" | "Asia" | "Europe" | "Oceania";
 
-  if (!status) return <div>Loading...</div>;
+const Homepage: FC<props> = ({ data }) => {
+  const [filter, setFilter] = useState<Continent | "default">("default");
+  const [countries, setCountries] = useState<country[]>(data);
+
+  const handleFilter = (continent: Continent) => {
+    setFilter(continent);
+    setCountries(data.filter((country) => country.region === continent));
+  };
 
   return (
-    <div>
-      {countries.map((country, index) => (
-        <Link key={index} to={`/country/${country.name}`}>
-          <p>{country.name}</p>
-        </Link>
-      ))}
+    <div className="flex flex-col gap-2">
+      <div className="">
+        <div>
+          {/* Search icon here */}
+          <img alt="" src="" />
+        </div>
+        <input
+          placeholder="Search for a country..."
+          type="text"
+          // onChange={(e) => console.log(e.target.value)} Need something to search for countries
+        />
+      </div>
+
+      <div>
+        <select
+          name="continent"
+          value={filter}
+          onChange={(e) => handleFilter(e.target.value as Continent)}
+        >
+          <option disabled hidden value="default">
+            Filter by region
+          </option>
+          <option value="Africa">Africa</option>
+          <option value="Americas">America</option>
+          <option value="Asia">Asia</option>
+          <option value="Europe">Europe</option>
+          <option value="Oceania">Oceania</option>
+        </select>
+      </div>
+
+      <ListingsGrid>
+        {countries.map((country) => (
+          <Country key={country.domain} country={country} />
+        ))}
+      </ListingsGrid>
     </div>
   );
 };
