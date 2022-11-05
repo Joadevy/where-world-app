@@ -14,6 +14,7 @@ export type Country = {
   region: string;
   capital: string[];
   nativeName?: string;
+  cca3: string;
   subRegion?: string;
   domain?: string;
   currencies?: string[];
@@ -22,7 +23,7 @@ export type Country = {
 };
 
 export const useCountries = (url: string): ReturnCountries => {
-  const [countries, setCountries] = useState<Country[]>([]); // It should be an use memo hook I think.
+  const [countries, setCountries] = useState<Country[]>([]);
   const [status, setStatus] = useState<boolean>(false);
 
   useEffect(() => {
@@ -34,23 +35,32 @@ export const useCountries = (url: string): ReturnCountries => {
       const country: Country = {} as Country;
 
       country.name = item.name.common;
-      country.imgUrl = item.flags.png;
+      country.imgUrl = item.flags.svg;
       country.population = item.population;
       country.region = item.region;
+      country.cca3 = item.cca3;
+
       if (item.capital) country.capital = [...item.capital];
 
-      // nativeName: item.name.nativeName.eng.official,
-      // country.subRegion = item.subregion;
-      // if (item.tld) country.domain = item.tld[0];
-      // if (item.currencies)
-      //   country.currencies = Object.values<Record<string, string>>(
-      //     item.currencies
-      //   ).map((currency) => {
-      //     return currency.name;
-      //   });
+      if (item.name.nativeName) {
+        country.nativeName = Object.values<Record<string, string>>(
+          item.name.nativeName
+        )[0].official;
+      }
 
-      // if (item.languages)
-      //   country.languages = [...Object.values<string>(item.languages)];
+      country.subRegion = item.subregion;
+      if (item.tld) country.domain = item.tld[0];
+      if (item.currencies)
+        country.currencies = Object.values<Record<string, string>>(
+          item.currencies
+        ).map((currency) => {
+          return currency.name;
+        });
+
+      if (item.languages)
+        country.languages = [...Object.values<string>(item.languages)];
+
+      if (item.borders) country.borderCountries = [...item.borders];
 
       return country;
     });
