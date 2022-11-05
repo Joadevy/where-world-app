@@ -32,11 +32,17 @@ const Details: FC<props> = ({ country, countries }) => {
         Back
       </Link>
 
-      <article className="mt-10">
-        <header className="rounded-sm w-96 border-2 border-white">
-          <img alt={`${country.name} flag`} src={imgUrl} srcSet="" />
+      <article className="mt-16">
+        <header className="rounded-lg w-11/12 sm:w-6/12 border-2">
+          <img
+            alt={`${country.name} flag`}
+            className="w-full rounded-md"
+            src={imgUrl}
+            srcSet=""
+          />
         </header>
-        <div className="flex flex-col gap-4 mt-5">
+
+        <div className="flex flex-col gap-3 mt-10">
           <h2 className="text-2xl font-extrabold">{name}</h2>
 
           {nativeName && (
@@ -58,7 +64,7 @@ const Details: FC<props> = ({ country, countries }) => {
           </p>
         </div>
 
-        <div className="mt-8 flex flex-col gap-4">
+        <div className="mt-10 flex flex-col gap-3">
           {domain && (
             <p>
               Top level domain: <span className="font-light">{domain}</span>
@@ -88,11 +94,11 @@ const Details: FC<props> = ({ country, countries }) => {
           )}
         </div>
 
-        <div className="mt-5">
-          {borderCountries && (
-            <p>
-              Border Countries:{" "}
-              {borderCountries.map((borderCountry, index) => {
+        {borderCountries && (
+          <div className="mt-10">
+            <h2 className="text-lg">Border Countries: </h2>
+            <div className="flex gap-2 flex-wrap mt-3">
+              {borderCountries.map((borderCountry) => {
                 const country = countries.find((country) => {
                   return country.cca3 === borderCountry;
                 });
@@ -100,16 +106,16 @@ const Details: FC<props> = ({ country, countries }) => {
                 return (
                   <Link
                     key={borderCountry}
-                    className="font-light"
+                    className="font-light dark:bg-d-blue-dark px-6 py-1 rounded-sm"
                     to={`/country/${country!.name}`}
                   >
-                    {(index ? ", " : "") + country?.name}
+                    {country?.name}
                   </Link>
                 );
               })}
-            </p>
-          )}
-        </div>
+            </div>
+          </div>
+        )}
       </article>
     </main>
   );
