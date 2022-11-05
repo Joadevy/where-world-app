@@ -14,10 +14,27 @@ const Homepage: FC<props> = ({ data }) => {
   const [filter, setFilter] = useState<Continent | "default">("default");
   const [countries, setCountries] = useState<country[]>(data);
 
-  const handleFilter = (continent: Continent) => {
-    setFilter(continent);
-    setCountries(data.filter((country) => country.region === continent));
+  const handleFilter = (option: Continent | "default") => {
+    if (option !== filter) {
+      setFilter(option);
+      if (option === "default") {
+        setCountries(data);
+
+        return;
+      }
+      setCountries(data.filter((country) => country.region === option));
+    }
   };
+
+  function handleSearch(search: string) {
+    setCountries(
+      data.filter(
+        (country) =>
+          country.name.toLowerCase().includes(search.toLowerCase()) &&
+          (country.region === filter || filter === "default")
+      )
+    );
+  }
 
   return (
     <div className="flex flex-col gap-2">
@@ -29,7 +46,7 @@ const Homepage: FC<props> = ({ data }) => {
         <input
           placeholder="Search for a country..."
           type="text"
-          // onChange={(e) => console.log(e.target.value)} Need something to search for countries
+          onChange={(e) => handleSearch(e.target.value)}
         />
       </div>
 
@@ -42,6 +59,7 @@ const Homepage: FC<props> = ({ data }) => {
           <option disabled hidden value="default">
             Filter by region
           </option>
+          <option value="default">All</option>
           <option value="Africa">Africa</option>
           <option value="Americas">America</option>
           <option value="Asia">Asia</option>
