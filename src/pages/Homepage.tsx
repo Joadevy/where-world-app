@@ -37,7 +37,7 @@ const Homepage: FC<props> = ({ data }) => {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <main className="flex flex-col gap-2">
       <div className="">
         <div>
           {/* Search icon here */}
@@ -73,7 +73,7 @@ const Homepage: FC<props> = ({ data }) => {
           <Country key={index} country={country} />
         ))}
       </ListingsGrid>
-    </div>
+    </main>
   );
 };
 
