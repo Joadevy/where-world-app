@@ -10,7 +10,7 @@ type ReturnCountries = {
 export type Country = {
   name: string;
   imgUrl: string;
-  population: number;
+  population: string;
   region: string;
   capital: string[];
   nativeName?: string;
@@ -35,8 +35,8 @@ export const useCountries = (url: string): ReturnCountries => {
       const country: Country = {} as Country;
 
       country.name = item.name.common;
-      country.imgUrl = item.flags.svg;
-      country.population = item.population;
+      country.imgUrl = item.flags.png;
+      country.population = item.population.toLocaleString();
       country.region = item.region;
       country.cca3 = item.cca3;
 

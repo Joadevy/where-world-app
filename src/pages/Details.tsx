@@ -15,13 +15,13 @@ const Details: FC<props> = ({ country, countries }) => {
     capital,
     region,
     imgUrl,
+    population,
     subRegion,
     domain,
     currencies,
     languages,
     borderCountries,
   } = country;
-  const population = country.population.toLocaleString();
 
   return (
     <main className="p-6">
