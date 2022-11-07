@@ -4,8 +4,8 @@ module.exports = {
   theme: {
     extend: {
       gridTemplateColumns: {
-        mobile: "repeat(auto-fit, minmax(175px, 1fr))",
-        desktop: "repeat(auto-fit, minmax(225px, 1fr))",
+        mobile: "repeat(auto-fill, minmax(175px, 1fr))",
+        desktop: "repeat(auto-fill, minmax(225px, 1fr))",
       },
       colors: {
         "vl-gray-light": "hsl(0, 0%, 98%)", // Light Mode Background
