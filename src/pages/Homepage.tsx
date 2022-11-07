@@ -64,9 +64,10 @@ const Homepage: FC<props> = ({ data }) => {
         />
       </div>
 
-      <div className="mx-5 my-3 border-2 border-white">
+      <div className="mx-5 my-3">
         <select
-          className="rounded-md px-8 py-4 dark:bg-d-blue-dark cursor-pointer"
+          // className="rounded-md px-8 py-4 dark:bg-d-blue-dark cursor-pointer"
+          className="form-select border-0 cursor-pointer rounded-md drop-shadow-md bg-d-blue-dark w-72 duration-300 outline-none"
           name="continent"
           value={filter}
           onChange={(e) => handleFilter(e.target.value as Continent)}
