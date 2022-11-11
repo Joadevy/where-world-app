@@ -10,12 +10,12 @@ type props = {
 export const Country: FC<props> = ({ country }) => {
   return (
     <Link
-      className="flex flex-col border border-green-100 rounded-md dark:bg-d-blue-dark shadow"
+      className="flex flex-col rounded-md bg-slate-50 dark:bg-d-blue-dark drop-shadow-2xl"
       to={`/country/${country.name}`}
     >
       <img
         alt=""
-        className="w-full h-44 rounded-t-md"
+        className="w-full max-h-40 rounded-t-md"
         loading="lazy"
         src={country.imgUrl}
       />

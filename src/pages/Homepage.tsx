@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { Country } from "../Components/Country";
 import { ListingsGrid } from "../Components/ListingsGrid";
@@ -11,19 +11,21 @@ type props = {
 type Continent = "Africa" | "America" | "Asia" | "Europe" | "Oceania";
 
 const Homepage: FC<props> = ({ data }) => {
-  const [filter, setFilter] = useState<Continent | "default">("default");
+  const filterOption: string | null = sessionStorage.getItem("filter");
   const [countries, setCountries] = useState<country[]>(data);
 
-  const handleFilter = (option: Continent | "default") => {
-    if (option !== filter) {
-      setFilter(option);
-      if (option === "default") {
-        setCountries(data);
+  useEffect(() => handleFilter(filterOption), []); // eslint-disable-line
 
-        return;
-      }
-      setCountries(data.filter((country) => country.region === option));
+  const handleFilter = (option: string | null) => {
+    if (option == null) option = "default";
+    sessionStorage.setItem("filter", option);
+
+    if (option === "default") {
+      setCountries(data);
+
+      return;
     }
+    setCountries(data.filter((country) => country.region === option));
   };
 
   function handleSearch(search: string) {
@@ -31,14 +33,14 @@ const Homepage: FC<props> = ({ data }) => {
       data.filter(
         (country) =>
           country.name.toLowerCase().includes(search.toLowerCase()) &&
-          (country.region === filter || filter === "default")
+          (country.region === filterOption || filterOption === "default")
       )
     );
   }
 
   return (
     <main className="flex flex-col gap-2">
-      <div className=" flex items-center m-5 rounded-md px-8 py-4 dark:bg-d-blue-dark">
+      <div className=" flex items-center m-5 rounded-md px-8 py-4 dark:bg-d-blue-dark shadow">
         <div className="w-5 h-5">
           <svg
             aria-hidden="true"
@@ -66,9 +68,9 @@ const Homepage: FC<props> = ({ data }) => {
 
       <div className="mx-5 my-3">
         <select
-          className="form-select border-none cursor-pointer rounded-md drop-shadow-md dark:bg-d-blue-dark w-72 duration-300 hover:outline-none focus:ring focus:ring-vd-blue-dark focus:ring-opacity-100"
+          className="form-select border-none cursor-pointer rounded-md drop-shadow-md dark:bg-d-blue-dark w-72 duration-300 hover:outline-none focus:ring focus:ring-white dark:focus:ring-vd-blue-dark focus:ring-opacity-100"
           name="continent"
-          value={filter}
+          value={filterOption!}
           onChange={(e) => handleFilter(e.target.value as Continent)}
         >
           <option disabled hidden value="default">
