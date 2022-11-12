@@ -10,10 +10,9 @@ import Homepage from "./pages/Homepage";
 
 function App() {
   const { theme, handleTheme } = useTheme();
-  const { status, countries } = useCountries("./data.json");
-  // const { status, countries } = useCountries(
-  //   "https://restcountries.com/v3.1/all"
-  // );
+  const { status, countries } = useCountries(
+    "https://restcountries.com/v3.1/all"
+  );
 
   if (!status) return <div>Loading...</div>;
 
