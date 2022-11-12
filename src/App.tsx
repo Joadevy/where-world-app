@@ -3,7 +3,6 @@ import type { Country } from "./Hooks/UseCountries";
 import { Link } from "react-router-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import nightmode from "./assets/icons/dm.svg";
 import { useCountries } from "./Hooks/UseCountries";
 import { useTheme } from "./Hooks/UseTheme";
 import Details from "./pages/Details";
@@ -20,7 +19,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <header className="flex justify-between px-4 py-8 mb-8 dark:bg-d-blue-dark">
+      <header className="flex justify-between px-6 lg:px-20 py-8 mb-8 bg-slate-50 shadow dark:bg-d-blue-dark">
         <Link to="/">
           <h1 className="font-bold text-lg">Where in the world?</h1>
         </Link>
