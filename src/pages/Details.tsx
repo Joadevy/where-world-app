@@ -24,16 +24,16 @@ const Details: FC<props> = ({ country, countries }) => {
   } = country;
 
   return (
-    <main className="p-6 lg:m-8">
+    <main className="p-6">
       <Link
-        className="rounded-lg px-6 py-2 bg-slate-50 dark:bg-d-blue-dark shadow-md"
+        className="rounded-lg px-6 py-2 lg:m-16 bg-slate-50 dark:bg-d-blue-dark shadow-md"
         to="/"
       >
         <span className="text-lg">←</span> Back
       </Link>
 
-      <article className="mt-16 flex flex-col lg:flex-row lg:gap-10">
-        <header className="rounded-lg lg:w-2/5 w-11/12 border-2 border-d-blue-dark dark:border-slate-50">
+      <article className="mt-16 flex flex-col lg:flex-row lg:justify-evenly">
+        <header className="rounded-lg lg:w-2/5 w-11/12 max-h-96 border-2 dark:border-slate-50">
           <img
             alt={`${country.name} flag`}
             className="w-full h-full rounded-md"
@@ -43,37 +43,37 @@ const Details: FC<props> = ({ country, countries }) => {
         </header>
 
         <div className="lg:w-2/5">
-          <h2 className="text-2xl font-extrabold mt-10">{name}</h2>
-          <div className="flex flex-col lg:flex-row lg:gap-8 lg:items-start">
-            <div className="flex flex-col gap-3 mt-8 lg:mt-5">
+          <h2 className="text-2xl lg:text-3xl font-extrabold mt-10">{name}</h2>
+          <div className="flex flex-col lg:flex-row lg:gap-16 lg:items-start">
+            <div className="flex flex-col gap-3 mt-8 lg:mt-5 text-sm">
               {nativeName && (
-                <p>
+                <p className="font-semibold">
                   Native name: <span className="font-light">{nativeName}</span>
                 </p>
               )}
-              <p>
+              <p className="font-semibold">
                 Population: <span className="font-light">{population}</span>
               </p>
-              <p>
+              <p className="font-semibold">
                 Region: <span className="font-light">{region}</span>
               </p>
-              <p>
+              <p className="font-semibold">
                 Sub Region: <span className="font-light">{subRegion}</span>
               </p>
-              <p>
+              <p className="font-semibold">
                 Capital: <span className="font-light">{capital}</span>
               </p>
             </div>
 
-            <div className="mt-10 lg:mt-5 flex flex-col gap-3">
+            <div className="mt-10 lg:mt-5 flex flex-col gap-3 text-sm">
               {domain && (
-                <p>
+                <p className="font-semibold">
                   Top level domain: <span className="font-light">{domain}</span>
                 </p>
               )}
 
               {currencies && (
-                <p>
+                <p className="font-semibold">
                   Currencies:{" "}
                   {currencies.map((language, index) => (
                     <span key={language} className="font-light">
@@ -84,7 +84,7 @@ const Details: FC<props> = ({ country, countries }) => {
               )}
 
               {languages && (
-                <p>
+                <p className="font-semibold">
                   Languages:{" "}
                   {languages.map((currency, index) => (
                     <span key={currency} className="font-light">
@@ -98,7 +98,7 @@ const Details: FC<props> = ({ country, countries }) => {
 
           {borderCountries && (
             <div className="mt-10 lg:flex lg:items-center lg:gap-2">
-              <h2 className="text-lg lg:flex-shrink-0 lg:self-start">
+              <h2 className="text-md font-semibold lg:flex-shrink-0 lg:self-start">
                 Border Countries:{" "}
               </h2>
               <div className="flex gap-2 flex-wrap mt-3 lg:mt-0">
@@ -110,7 +110,7 @@ const Details: FC<props> = ({ country, countries }) => {
                   return (
                     <Link
                       key={borderCountry}
-                      className="font-light dark:bg-d-blue-dark px-6 py-1 rounded-sm bg-slate-50 shadow-md"
+                      className="font-light dark:bg-d-blue-dark px-6 lg:px-4 py-1 rounded-md bg-slate-50 shadow-md hover:opacity-60"
                       to={`/country/${country!.name}`}
                     >
                       {country?.name}

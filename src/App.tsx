@@ -19,7 +19,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <header className="flex justify-between px-4 lg:px-14 py-8 mb-8 bg-slate-50 shadow dark:bg-d-blue-dark">
+      <header className="flex justify-between px-6 lg:px-20 py-8 mb-8 bg-slate-50 shadow dark:bg-d-blue-dark">
         <Link to="/">
           <h1 className="font-bold text-lg">Where in the world?</h1>
         </Link>
