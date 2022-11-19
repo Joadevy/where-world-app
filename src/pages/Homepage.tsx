@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import { Country } from "../Components/Country";
 import { ListingsGrid } from "../Components/ListingsGrid";
@@ -13,8 +14,14 @@ type Continent = "Africa" | "America" | "Asia" | "Europe" | "Oceania";
 const Homepage: FC<props> = ({ data }) => {
   const filterOption: string | null = sessionStorage.getItem("filter");
   const [countries, setCountries] = useState<country[]>(data);
+  const [someCountries, setSomeCountries] = useState<country[]>([]);
+  const [hasMore, setHasMore] = useState(true);
 
-  useEffect(() => handleFilter(filterOption), []); // eslint-disable-line
+  useEffect(() => {
+    handleFilter(filterOption);
+    loadSomeCountries();
+    console.log(countries.length);
+  }, []); // eslint-disable-line
 
   const handleFilter = (option: string | null) => {
     if (option == null) option = "default";
@@ -28,6 +35,10 @@ const Homepage: FC<props> = ({ data }) => {
     setCountries(data.filter((country) => country.region === option));
   };
 
+  // useEffect(() => {
+  // loadSomeCountries();
+  // }, [handleFilter]);
+
   function handleSearch(search: string) {
     setCountries(
       data.filter(
@@ -36,6 +47,23 @@ const Homepage: FC<props> = ({ data }) => {
           (country.region === filterOption || filterOption === "default")
       )
     );
+  }
+
+  function loadSomeCountries() {
+    let moreCountries: country[];
+
+    if (countries.length >= 15) {
+      moreCountries = countries.slice(0, 15);
+
+      setCountries(countries.slice(15, countries.length));
+    } else {
+      moreCountries = countries.slice(0, countries.length);
+
+      setCountries([]);
+      setHasMore(false);
+    }
+    console.log(someCountries.length);
+    setSomeCountries(someCountries.concat(moreCountries));
   }
 
   return (
@@ -89,11 +117,19 @@ const Homepage: FC<props> = ({ data }) => {
         </div>
       </div>
 
-      <ListingsGrid>
-        {countries.map((country, index) => (
-          <Country key={index} country={country} />
-        ))}
-      </ListingsGrid>
+      <InfiniteScroll
+        dataLength={someCountries.length}
+        hasMore={hasMore}
+        loader={<p>Loading more countries c:</p>}
+        next={loadSomeCountries}
+      >
+        <ListingsGrid>
+          {someCountries.map((country, index) => (
+            <Country key={index} country={country} />
+          ))}
+          {/* Here is the countries mapping to add the infinite scroll  */}
+        </ListingsGrid>
+      </InfiniteScroll>
     </main>
   );
 };
