@@ -9,25 +9,27 @@ type props = {
   data: country[];
 };
 
-// type Continent = "Africa" | "America" | "Asia" | "Europe" | "Oceania";
-
 const Homepage: FC<props> = ({ data }) => {
-  const filterOption: string | null = sessionStorage.getItem("filter");
+  const [filter, setFilter] = useState<string>("default");
   const [countries, setCountries] = useState<country[]>([]);
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    handleFilter(filterOption);
-    // console.log(data);
+    const savedFilter = sessionStorage.getItem("filter");
+
+    if (savedFilter) setFilter(savedFilter);
   }, []); // eslint-disable-line
 
-  const handleFilter = (option: string | null) => {
-    if (option == null) option = "default";
+  useEffect(() => {
+    setCountries([]);
+    setHasMore(true);
+
+    loadFirstCountries();
+  }, [filter]); // eslint-disable-line
+
+  const handleFilter = (option: string) => {
+    setFilter(option);
     sessionStorage.setItem("filter", option);
-    if (option !== filterOption) {
-      setCountries([]);
-    }
-    loadSomeCountries();
   };
 
   function handleSearch(search: string) {
@@ -35,35 +37,49 @@ const Homepage: FC<props> = ({ data }) => {
       data.filter(
         (country) =>
           country.name.toLowerCase().includes(search.toLowerCase()) &&
-          (country.region === filterOption || filterOption === "default")
+          (country.region === filter || filter === "default")
       )
     );
   }
 
-  function loadSomeCountries() {
+  function loadFirstCountries() {
+    if (filter === "default") {
+      return setCountries(data.slice(0, 10));
+    }
+
+    // Optimization: only need the first 15 elements that matches the filter.
+    const countriesFiltered = data.filter(
+      (country) => country.region === filter
+    );
+
+    setCountries(countriesFiltered.slice(0, 10));
+  }
+
+  function loadMoreCountries() {
     let moreCountries: country[] = [];
 
     let countriesFiltered: country[] = [];
 
-    if (filterOption === "default") {
+    if (filter === "default") {
       countriesFiltered = data;
     } else {
-      countriesFiltered = data.filter(
-        (country) => country.region === filterOption
-      );
+      countriesFiltered = data.filter((country) => country.region === filter);
     }
 
-    if (countries.length <= data.length - 15) {
+    if (countries.length <= countriesFiltered.length - 10) {
       moreCountries = countriesFiltered.slice(
         countries.length,
-        countries.length + 15
+        countries.length + 10
       );
     } else {
-      moreCountries = countriesFiltered.slice(countries.length, data.length);
+      moreCountries = countriesFiltered.slice(
+        countries.length,
+        countriesFiltered.length
+      );
 
       setHasMore(false);
     }
-    // console.log(countries.length);
+
     setCountries(countries.concat(moreCountries));
   }
 
@@ -100,7 +116,7 @@ const Homepage: FC<props> = ({ data }) => {
           <select
             className="form-select px-8 py-4 border-none cursor-pointer rounded-md drop-shadow-md dark:bg-d-blue-dark w-72 hover:outline-none focus:ring focus:ring-white dark:focus:ring-vd-blue-dark focus:ring-opacity-100"
             name="continent"
-            value={filterOption!}
+            value={filter}
             onChange={(e) => handleFilter(e.target.value)}
           >
             <option disabled hidden value="default">
@@ -122,13 +138,12 @@ const Homepage: FC<props> = ({ data }) => {
         dataLength={countries.length}
         hasMore={hasMore}
         loader={null}
-        next={loadSomeCountries}
+        next={loadMoreCountries}
       >
         <ListingsGrid>
           {countries.map((country, index) => (
             <Country key={index} country={country} />
           ))}
-          {/* Here is the countries mapping to add the infinite scroll  */}
         </ListingsGrid>
       </InfiniteScroll>
     </main>

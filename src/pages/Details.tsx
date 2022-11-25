@@ -33,7 +33,7 @@ const Details: FC<props> = ({ country, countries }) => {
       </Link>
 
       <article className="mt-16 flex flex-col lg:flex-row lg:justify-evenly">
-        <header className="rounded-lg lg:w-2/5 w-11/12 max-h-96 border-2 dark:border-slate-50">
+        <header className="rounded-lg w-11/12 sm:w-8/12 lg:w-2/5  border-2 dark:border-slate-50">
           <img
             alt={`${country.name} flag`}
             className="w-full h-full rounded-md"
