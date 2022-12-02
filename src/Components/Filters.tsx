@@ -41,8 +41,9 @@ export const Filters: FC<props> = ({
 
       <div className="mx-5 my-3 lg:mx-0">
         <select
+          aria-label="pick a continent"
           className="form-select px-8 py-4 border-none cursor-pointer rounded-md drop-shadow-md dark:bg-d-blue-dark w-72 hover:outline-none focus:ring focus:ring-white dark:focus:ring-vd-blue-dark focus:ring-opacity-100"
-          name="continent"
+          name="pick a continent"
           value={activeFilter}
           onChange={(e) => handleFilter(e.target.value)}
         >
