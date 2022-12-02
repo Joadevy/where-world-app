@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 import { Country } from "../Components/Country";
 import { Filters } from "../Components/Filters";
 import { ListingsGrid } from "../Components/ListingsGrid";
 import { type Country as country } from "../Hooks/UseCountries";
+import useScroll from "../Hooks/UseScroll";
 
 type props = {
   data: country[];
@@ -13,7 +13,6 @@ type props = {
 const Homepage: FC<props> = ({ data }) => {
   const [filter, setFilter] = useState<string>("default");
   const [countries, setCountries] = useState<country[]>([]);
-  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     const savedFilter = sessionStorage.getItem("filter");
@@ -22,11 +21,10 @@ const Homepage: FC<props> = ({ data }) => {
   }, []); // eslint-disable-line
 
   useEffect(() => {
-    setCountries([]);
-    setHasMore(true);
-
-    loadFirstCountries();
+    loadCountries();
   }, [filter]); // eslint-disable-line
+
+  useScroll("Homepage");
 
   const handleFilter = (option: string) => {
     setFilter(option);
@@ -43,45 +41,16 @@ const Homepage: FC<props> = ({ data }) => {
     );
   }
 
-  function loadFirstCountries() {
+  function loadCountries() {
     if (filter === "default") {
-      return setCountries(data.slice(0, 10));
+      return setCountries(data);
     }
 
-    // Optimization: only need the first 15 elements that matches the filter.
     const countriesFiltered = data.filter(
       (country) => country.region === filter
     );
 
-    setCountries(countriesFiltered.slice(0, 10));
-  }
-
-  function loadMoreCountries() {
-    let moreCountries: country[] = [];
-
-    let countriesFiltered: country[] = [];
-
-    if (filter === "default") {
-      countriesFiltered = data;
-    } else {
-      countriesFiltered = data.filter((country) => country.region === filter);
-    }
-
-    if (countries.length <= countriesFiltered.length - 10) {
-      moreCountries = countriesFiltered.slice(
-        countries.length,
-        countries.length + 10
-      );
-    } else {
-      moreCountries = countriesFiltered.slice(
-        countries.length,
-        countriesFiltered.length
-      );
-
-      setHasMore(false);
-    }
-
-    setCountries(countries.concat(moreCountries));
+    setCountries(countriesFiltered);
   }
 
   return (
@@ -92,18 +61,11 @@ const Homepage: FC<props> = ({ data }) => {
         handleSearch={handleSearch}
       />
 
-      <InfiniteScroll
-        dataLength={countries.length}
-        hasMore={hasMore}
-        loader={null}
-        next={loadMoreCountries}
-      >
-        <ListingsGrid>
-          {countries.map((country, index) => (
-            <Country key={index} country={country} />
-          ))}
-        </ListingsGrid>
-      </InfiniteScroll>
+      <ListingsGrid>
+        {countries.map((country, index) => (
+          <Country key={index} country={country} />
+        ))}
+      </ListingsGrid>
     </main>
   );
 };
