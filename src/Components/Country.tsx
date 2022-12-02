@@ -16,6 +16,7 @@ export const Country: FC<props> = ({ country }) => {
       <img
         alt=""
         className="w-full max-h-40 rounded-t-md"
+        loading="lazy"
         src={country.imgUrl}
       />
       <div className="p-6 mb-4 flex flex-col gap-1">
