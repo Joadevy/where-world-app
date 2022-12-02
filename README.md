@@ -3,7 +3,7 @@
 » Live Site URL: https://where-world-app.vercel.app/
 
 ## Overview
-» It's a solution for the [frontend mentor code challenge](https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca) that I did to practice my React abilities and at the same time to improve my handling of tailwind CSS and typescript. This time I worked with an API to fetch data of different countries and filtering & displaying it in many ways. Then I also added the switch for dark/light theme (Dark mode makes all better).
+» It's a solution for the [frontend mentor code challenge](https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca) that I did to practice my React abilities and at the same time to improve my handling of tailwind CSS and typescript. This time I worked with an API to fetch data from different countries and filter & displaying it in many ways. Then I also added the switch for the dark/light theme (Dark mode makes it all better).
  
 ## Author
 
